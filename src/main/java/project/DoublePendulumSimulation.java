@@ -80,6 +80,11 @@ public class DoublePendulumSimulation extends Application{
     // LABEL WITH TIME
     Label timeLabel;
 
+    // LABELS WITH ENERGY VALUE
+    Label initEnergyLabel;
+    Label blueEnergyLabel;
+    Label redEnergyLabel;
+    
     // STORES 2D COORDS OF PENDULUMS' TRACES (in order to paint only uniq points)
     private Set<Point2D> trace;
 
@@ -144,6 +149,10 @@ public class DoublePendulumSimulation extends Application{
         // TIME LABEL
         timeLabel = new Label("Time: 0 [s]");
 
+        // ENERGY LABELS
+        initEnergyLabel = new Label("Init energy of Blue: " +(int)( M_1 * G * (R_1 - Math.cos( T_1 )) ) + " [J] of Red: " + (int)( M_2 * G * (R_2 - Math.cos( T_2 )) ) + " [J]");
+        blueEnergyLabel = new Label("");
+        redEnergyLabel = new Label("");
 
         // ADD CLEAR BUTTON
         Button clearBtn = new Button("Clear");
@@ -311,6 +320,10 @@ public class DoublePendulumSimulation extends Application{
                     // INCREASE TIME IN TIMELABEL
                     ctr++;
                     timeLabel.setText("Time: " + String.valueOf( (int)(dt * ctr)  ) + " [s]");
+                    
+                    // UPDATE ENERGY LABELS
+                    blueEnergyLabel.setText( "Blue: " + (int)( 0.5 * M_1 * d1_T_1 * d1_T_1 +   M_1 * G * (R_1 - Math.cos( T_1 )) ) );
+                    redEnergyLabel.setText( "Red: " + (int)( 0.5 * M_2 * d2_T_1 * d2_T_1 +   M_2 * G * (R_2 - Math.cos( T_2 )) ) );
                 }
             }
         }));
