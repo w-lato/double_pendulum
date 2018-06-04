@@ -85,6 +85,15 @@ public class DoublePendulumSimulation extends Application{
     Label blueEnergyLabel;
     Label redEnergyLabel;
     
+     // INITIAL VALUES OF POTENTIAL ENERGY
+    double blueInit;
+    double redInit;
+
+    // LABELES DISPLAYING ENERGY DELTAS
+    Label redDeltaLabel;
+    Label blueDeltaLabel;
+    Label totalDelltaLabel;
+    
     // STORES 2D COORDS OF PENDULUMS' TRACES (in order to paint only uniq points)
     private Set<Point2D> trace;
 
@@ -140,19 +149,20 @@ public class DoublePendulumSimulation extends Application{
         E_2.setEndY( y2 );
         E_2.toFront();
 
-//        final TranslateTransition transition = createTranslateTransition(circle);
-//        moveCircleOnMousePress(scene, circle, transition);
-
-//        circle.setLayoutY(300);
-//        circle.setLayoutY(400);
-
         // TIME LABEL
         timeLabel = new Label("Time: 0 [s]");
 
-        // ENERGY LABELS
-        initEnergyLabel = new Label("Init energy of Blue: " +(int)( M_1 * G * (R_1 - Math.cos( T_1 )) ) + " [J] of Red: " + (int)( M_2 * G * (R_2 - Math.cos( T_2 )) ) + " [J]");
+        // ENERGY LABELS 
+        blueInit = ( M_1 * G * (R_1 - Math.cos( T_1 )) );
+        redInit = ( M_2 * G * (R_2 - Math.cos( T_2 )) );
+
+        initEnergyLabel = new Label("Init energy of Blue: " +(int)( blueInit ) + " [J] of Red: " + (int)( redInit ) + " [J]");
         blueEnergyLabel = new Label("");
         redEnergyLabel = new Label("");
+
+        blueDeltaLabel = new Label("");
+        redDeltaLabel = new Label("");
+        totalDelltaLabel = new Label("");
 
         // ADD CLEAR BUTTON
         Button clearBtn = new Button("Clear");
@@ -191,7 +201,7 @@ public class DoublePendulumSimulation extends Application{
 
         VBox vbox = new VBox(10);
         vbox.setId("vBox");
-        vbox.getChildren().addAll( timeLabel, clearBtn, stopBtn );
+        vbox.getChildren().addAll( timeLabel, initEnergyLabel, blueEnergyLabel, redEnergyLabel, blueDeltaLabel, redDeltaLabel, totalDelltaLabel, clearBtn, stopBtn );
 
         // DISPLAY COMPONENTS OF SCENE
         canvas.getChildren().addAll(CI_1, CI_2, E_1, E_2, vbox);
@@ -324,6 +334,11 @@ public class DoublePendulumSimulation extends Application{
                     // UPDATE ENERGY LABELS
                     blueEnergyLabel.setText( "Blue: " + (int)( 0.5 * M_1 * d1_T_1 * d1_T_1 +   M_1 * G * (R_1 - Math.cos( T_1 )) ) );
                     redEnergyLabel.setText( "Red: " + (int)( 0.5 * M_2 * d2_T_1 * d2_T_1 +   M_2 * G * (R_2 - Math.cos( T_2 )) ) );
+                
+                     // DELTA LABELS
+                    blueDeltaLabel.setText("BLUE dE = " + (int)( blueInit - blueCurrent ) );
+                    redDeltaLabel.setText("RED dE   = "  + (int)( redInit - redCurrent ) );
+                    totalDelltaLabel.setText("TOTAL dE = " + (int)(blueInit + redInit - blueCurrent - redCurrent ) );
                 }
             }
         }));
