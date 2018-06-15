@@ -153,8 +153,8 @@ public class DoublePendulumSimulation extends Application{
         timeLabel = new Label("Time: 0 [s]");
 
         // ENERGY LABELS 
-        blueInit = ( M_1 * G * (R_1 - Math.cos( T_1 )) );
-        redInit = ( M_2 * G * (R_2 - Math.cos( T_2 )) );
+        blueInit = ( M_1 * G * (R_2 + R_1 - (R_1 * Math.cos( T_1 ))) );
+        redInit = ( M_2 * G * ((R_2 + R_1 - (R_1 * Math.cos( T_1 )))  - (R_2 * Math.cos( T_2 )) ));
 
         initEnergyLabel = new Label("Init energy of Blue: " +(int)( blueInit ) + " [J] of Red: " + (int)( redInit ) + " [J]");
         blueEnergyLabel = new Label("");
@@ -332,9 +332,9 @@ public class DoublePendulumSimulation extends Application{
                     timeLabel.setText("Time: " + String.valueOf( (int)(dt * ctr)  ) + " [s]");
                     
                     // UPDATE ENERGY LABELS
-                    blueEnergyLabel.setText( "Blue: " + (int)( 0.5 * M_1 * d1_T_1 * d1_T_1 +   M_1 * G * (R_1 - Math.cos( T_1 )) ) );
-                    redEnergyLabel.setText( "Red: " + (int)( 0.5 * M_2 * d2_T_1 * d2_T_1 +   M_2 * G * (R_2 - Math.cos( T_2 )) ) );
-                
+                    double blueCurrent = ( 0.5 * M_1 * d1_T_1 * d1_T_1 * R_1 * R_1 +   M_1 * G * (R_2+ R_1 - (R_1 * Math.cos( T_1 ))) );
+                    double redCurrent = ( 0.5 * M_2 * d1_T_2 * d1_T_2 * R_2 * R_2 +   M_2 * G * ((R_2+ R_1 - (R_1 * Math.cos( T_1 )))  - (R_2 * Math.cos( T_2 )) ) );
+                    
                      // DELTA LABELS
                     blueDeltaLabel.setText("BLUE dE = " + (int)( blueInit - blueCurrent ) );
                     redDeltaLabel.setText("RED dE   = "  + (int)( redInit - redCurrent ) );
